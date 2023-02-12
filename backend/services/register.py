@@ -9,10 +9,9 @@ def register_user():
     data = request.get_json()
     email = data["email"]
     password = data["password"]
-
+    
     user = User.query.filter_by(email=email).first()
-
-    if user is None:
+    if user is not None:
         return jsonify({"error": "User already exists."}), 409
 
     hashed_password = bcrypt.generate_password_hash(password)

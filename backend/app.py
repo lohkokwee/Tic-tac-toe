@@ -11,7 +11,7 @@ def create_app():
     db.init_app(app)
     bcrypt.init_app(app)
     session.init_app(app)
-    CORS(app)
+    CORS(app, supports_credentials = True)
 
     with app.app_context():
         db.create_all()
