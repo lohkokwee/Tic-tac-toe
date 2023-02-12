@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from config import AppConfig
-from extensions import db
+from extensions import db, bcrypt, session
 from models import User
 from services import register, authenticate
 
@@ -9,6 +9,8 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(AppConfig)
     db.init_app(app)
+    bcrypt.init_app(app)
+    session.init_app(app)
     CORS(app)
 
     with app.app_context():
@@ -25,5 +27,4 @@ def create_app():
 
 if __name__ == "__main__":
     app = create_app()
-
     app.run(host="0.0.0.0", port=5001, debug=True)
