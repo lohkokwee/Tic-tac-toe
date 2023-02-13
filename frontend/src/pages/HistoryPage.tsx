@@ -5,16 +5,16 @@ import {
   Text,
 } from '@mantine/core';
 
-const HomePage = () => {
+const HistoryPage = () => {
   return (
     <Flex justify="center">
       <Box m="xl">
         <Container>
-          <Text>Home Page</Text>
+          <Text>History Page</Text>
         </Container>
       </Box>
-    </Flex >
+    </Flex>
   )
 }
 
-export default HomePage
+export default HistoryPage

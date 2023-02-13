@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Container,
-  Title,
-  Text,
   Flex,
   TextInput,
   PasswordInput,
@@ -18,6 +16,7 @@ import { useForm } from '@mantine/form';
 import useToggleState from '../hooks/useToggleState';
 import { ENDPOINT } from '../constants';
 import postData from '../services/postData';
+import HeroText from '../components/hero/HeroText';
 
 export interface LogInValues {
   email: string,
@@ -49,19 +48,6 @@ const LandingPage = () => {
       }
     }
   });
-
-  const renderHeroText = () => {
-    return (
-      <Box mb="xl">
-        <Container mb={5} px={0}>
-          <Title align='center' order={1}>TIC TAC TOE</Title>
-        </Container>
-        <Container px={0}>
-          <Text align='center'>An accessibility focused board game.</Text>
-        </Container>
-      </Box>
-    )
-  }
 
   const renderLogInForm = () => {
     const toggleSignUp = (e: MouseEvent) => {
@@ -141,7 +127,7 @@ const LandingPage = () => {
     <Flex justify="center" align="center" sx={{ minHeight: '100vh' }}>
       <Box m="xl">
         <Container>
-          {renderHeroText()}
+          <HeroText subtitle/>
           {renderLogInForm()}
         </Container>
       </Box>

@@ -22,7 +22,7 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
         withGlobalStyles
         withNormalizeCSS>
         <NotificationsProvider>
-            {children}
+          {children}
         </NotificationsProvider>
       </MantineProvider>
     </ColorSchemeProvider>
