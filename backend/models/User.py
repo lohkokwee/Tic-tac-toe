@@ -17,6 +17,6 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            "challenger_records": self.challenger_records,
-            "opponent_records": self.opponent_records
+            "challenger_records": list(map(lambda x: x.json(), self.challenger_records)),
+            "opponent_records": list(map(lambda x: x.json(), self.opponent_records))
         }

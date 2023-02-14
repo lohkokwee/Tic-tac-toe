@@ -54,12 +54,11 @@ const LandingPage = () => {
     const toggleSignUp = (e: MouseEvent) => {
       e.preventDefault();
       signingUp.toggle()
-      console.log(signingUp.isOpen)
     }
 
     const submitForm = (values: LogInValues) => {
       setIsSubmitting(true);
-      const path = signingUp.isOpen ? '/register' : '/authenticate'
+      const path = signingUp.isOpen ? '/register/' : '/authenticate/'
       try {
         postData(`${ENDPOINT}${path}`, {
           email: values.email,
@@ -73,7 +72,7 @@ const LandingPage = () => {
                 message: "Sucess!",
                 autoClose: 3000,
               })
-              navigate('/home')
+              signingUp.isOpen ? signingUp.toggle() : navigate('/home')
             } else {
               showNotification({
                 color: "red",
@@ -83,6 +82,7 @@ const LandingPage = () => {
             }
           })
       } catch (error) {
+        console.log('received')
         setIsSubmitting(false);
         showNotification({
           color: "red",

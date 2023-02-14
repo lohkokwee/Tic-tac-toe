@@ -18,7 +18,7 @@ const NotFoundPage = () => {
 
   useEffect(() => {
     try {
-      getData(`${ENDPOINT}/@me`)
+      getData(`${ENDPOINT}/authenticate/@me`)
       .then((response) => (response.json()))
       .then((data) => {setUser(data?.user)})
     } catch (error) {}

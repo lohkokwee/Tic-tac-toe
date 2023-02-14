@@ -65,3 +65,43 @@ def post_new_record():
         "record": new_record.json(),
         "message": "Successfully created."
     })
+
+def update_record_state(record_id, update_state):
+    authorised_user = authenticate_session()
+    if not authorised_user:
+        return False
+
+    record = Record.query.filter(Record.id == record_id).first()
+    try:
+        record.state = update_state
+        record.moves += 1
+        db.session.commit()
+    except:
+        return False
+
+    return record
+
+@record_bp.route("/update_state", methods = ["PUT"])
+def post_record_state():
+    authorised_user = authenticate_session()
+    if not authorised_user:
+        return jsonify({"error": "Unauthorised."}), 401
+
+    data = request.get_json()
+    record_id = data.get("record_id", None)
+    update_state = data.get("update_state", None)
+    challenger_id = data.get("challenger_id", None)
+    opponent_id = data.get("opponent_id", None)
+
+    if record_id is None or update_state is None or challenger_id is None or opponent_id is None:
+        return jsonify({"error": "Invalid parameters."}), 400
+
+    updated_record = update_record_state(record_id, update_state)
+
+    if not updated_record:
+        return jsonify({"error": "Error updating record."}), 500
+
+    return jsonify({
+        "record": updated_record.json(),
+        "message": "Successfully updated."
+    })

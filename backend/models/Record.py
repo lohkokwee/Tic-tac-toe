@@ -4,22 +4,9 @@ from gameUtil import check_win
 def init_state():
     return [['' for i in range(3)] for j in range(3)]
 
-# def get_completion(moves, state, challenger_id, opponent_id):
-def get_completion(context):
-    moves = context.get_current_parameters()["moves"]
+def get_winner(context):
     state = context.get_current_parameters()["state"]
-    challenger_id = context.get_current_parameters()["challenger_id"]
-    opponent_id = context.get_current_parameters()["opponent_id"]
-
-    if moves >= 9:
-        return None
     winner = check_win(state)
-
-    if winner == "O":
-        return challenger_id
-    elif winner == "X":
-        return opponent_id
-
     return winner
     
 
@@ -30,7 +17,7 @@ class Record(db.Model):
     opponent_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable = False)
     state = db.Column(db.JSON, nullable=False, default = init_state())
     moves = db.Column(db.Integer, default = 0)
-    winner = db.Column(db.String(32), onupdate = get_completion)
+    winner = db.Column(db.String(32), onupdate = get_winner, default = None)
 
     def json(self):
         return {

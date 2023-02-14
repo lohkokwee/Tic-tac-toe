@@ -7,6 +7,7 @@ import {
 import { NotificationsProvider } from '@mantine/notifications';
 
 import { createTheme } from './themes';
+import { socket, SocketContext } from './context/socket';
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
   // Set-up for color scheme contexts
@@ -24,7 +25,9 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
         withGlobalStyles
         withNormalizeCSS>
         <NotificationsProvider>
-          {children}
+          <SocketContext.Provider value={socket}>
+            {children}
+          </SocketContext.Provider>
         </NotificationsProvider>
       </MantineProvider>
     </ColorSchemeProvider>
