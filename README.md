@@ -21,7 +21,9 @@ This part walks you through how to run the application locally. It involves two 
 
 4. [Install Redis](https://redis.io/docs/getting-started/installation/) and start redis server (for server side session handling).
 
-5. Change directory  and run the server.
+5. Download .env file from google drive link provided (in email) and place it in the [backend](./backend/) folder.
+
+6. Change directory  and run the server.
 ```
     python ./app.py
 ```

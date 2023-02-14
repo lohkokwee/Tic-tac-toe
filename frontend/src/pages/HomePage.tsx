@@ -37,7 +37,7 @@ const HomePage = () => {
       opponent_email: '',
     },
     validate: {
-      opponent_email: (value) => validateEmail(value) || value !== user?.email ? 'Invalid email.' : null
+      opponent_email: (value) => validateEmail(value) || value === user?.email ? 'Invalid email.' : null
     }
   });
 
