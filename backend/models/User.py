@@ -1,5 +1,4 @@
 from extensions import db
-from uuid import uuid4
 from models import Record
 
 def get_uuid():
