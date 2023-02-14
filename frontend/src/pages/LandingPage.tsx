@@ -15,8 +15,9 @@ import { useForm } from '@mantine/form';
 
 import useToggleState from '../hooks/useToggleState';
 import { ENDPOINT } from '../constants';
-import postData from '../services/postData';
+import postData from '../services/baseServices/postData';
 import HeroText from '../components/hero/HeroText';
+import { validateEmail, validatePassowrd } from '../schema/validations';
 
 export interface LogInValues {
   email: string,
@@ -38,8 +39,8 @@ const LandingPage = () => {
       confirmPassword: ''
     },
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email.'),
-      password: (value) => (value !== undefined && value.length > 0 ? null : 'Invalid password.'),
+      email: (value) => validateEmail(value),
+      password: (value) => validatePassowrd(value),
       confirmPassword: (value, values) => {
         if (signingUp.isOpen) {
           return (value === values.password ? null : 'Passwords do not match.');
@@ -59,27 +60,36 @@ const LandingPage = () => {
     const submitForm = (values: LogInValues) => {
       setIsSubmitting(true);
       const path = signingUp.isOpen ? '/register' : '/authenticate'
-      postData(`${ENDPOINT}${path}`, {
-        email: values.email,
-        password: values.password
-      })
-        .then((response) => {
-          setIsSubmitting(false);
-          if (response.status === 200) {
-            showNotification({
-              color: "green",
-              message: "Sucess!",
-              autoClose: 3000,
-            })
-            navigate('/home')
-          } else {
-            showNotification({
-              color: "red",
-              message: `Unsuccessful! (Status ${response.status})`,
-              autoClose: 3000,
-            })
-          }
+      try {
+        postData(`${ENDPOINT}${path}`, {
+          email: values.email,
+          password: values.password
         })
+          .then((response) => {
+            setIsSubmitting(false);
+            if (response.status === 200) {
+              showNotification({
+                color: "green",
+                message: "Sucess!",
+                autoClose: 3000,
+              })
+              navigate('/home')
+            } else {
+              showNotification({
+                color: "red",
+                message: `Unsuccessful! (Status ${response.status})`,
+                autoClose: 3000,
+              })
+            }
+          })
+      } catch (error) {
+        setIsSubmitting(false);
+        showNotification({
+          color: "red",
+          message: `Unsuccessful! Please try again later.`,
+          autoClose: 3000,
+        })
+      }
     }
 
     return (
@@ -111,7 +121,8 @@ const LandingPage = () => {
               <Button
                 radius="xl"
                 onClick={(e) => toggleSignUp(e)}
-                variant="subtle">{signingUp.isOpen ? 'Log In' : 'Sign Up'}</Button>
+                variant="subtle">{signingUp.isOpen ? 'Log In' : 'Sign Up'}
+              </Button>
               <Button
                 radius="xl"
                 type='submit'>{signingUp.isOpen ? 'Sign Up' : 'Log In'}
@@ -127,7 +138,7 @@ const LandingPage = () => {
     <Flex justify="center" align="center" sx={{ minHeight: '100vh' }}>
       <Box m="xl">
         <Container>
-          <HeroText subtitle/>
+          <HeroText subtitle />
           {renderLogInForm()}
         </Container>
       </Box>

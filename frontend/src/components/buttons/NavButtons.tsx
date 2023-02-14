@@ -36,7 +36,7 @@ const NavButtons = ({ children }: { children: React.ReactNode }) => {
           return (
             smallScreen
               ? (
-                <Box>
+                <Box key={idx}>
                   <ActionIcon
                     variant='filled'
                     color='blue'
@@ -49,6 +49,7 @@ const NavButtons = ({ children }: { children: React.ReactNode }) => {
               )
               : (
                 <Button
+                  key={idx}
                   onClick={
                     () => { navigate(buttonConfig.route) }
                   }
@@ -75,4 +76,4 @@ const NavButtons = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export default NavButtons
+export default NavButtons;

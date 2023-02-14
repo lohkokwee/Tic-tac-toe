@@ -1,0 +1,2 @@
+export const validateEmail = (value: string) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email.');
+export const validatePassowrd = (value: string) => (value !== undefined && value.length > 0 ? null : 'Invalid password.');

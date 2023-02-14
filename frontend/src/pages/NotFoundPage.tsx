@@ -6,10 +6,23 @@ import {
   Text,
   Button
 } from '@mantine/core';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ENDPOINT } from '../constants';
+import getData from '../services/baseServices/getData';
+import { User } from '../types';
 
 const NotFoundPage = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    try {
+      getData(`${ENDPOINT}/@me`)
+      .then((response) => (response.json()))
+      .then((data) => {setUser(data?.user)})
+    } catch (error) {}
+  }, [])
 
   const renderContent = () => {
     return (
@@ -25,7 +38,7 @@ const NotFoundPage = () => {
           <Button
             radius="xl"
             onClick={() => {
-              navigate('/')
+              navigate(user ? '/home' : '/')
             }} 
           >
             BACK TO MAIN

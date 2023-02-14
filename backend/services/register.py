@@ -2,9 +2,9 @@ from flask import Blueprint, request, jsonify
 from extensions import db, bcrypt
 from models.User import User
 
-register_bp = Blueprint("register", __name__)
+register_bp = Blueprint("register", __name__, url_prefix = '/register')
 
-@register_bp.route("/register", methods = ["POST"])
+@register_bp.route("/", methods = ["POST"])
 def register_user():
     data = request.get_json()
     email = data["email"]
